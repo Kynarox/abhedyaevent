@@ -38,24 +38,22 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        try:
-            username = request.form['username'].strip()
-            password = request.form['password']
-            if "admin" in username.lower():
-             if check_password_hash(users.get('admin', ''), password):
+        username = request.form['username'].strip()
+        password = request.form['password']
+        if "admin" in username.lower():
+            if check_password_hash(users.get('admin', ''), password):
                 return "Congrats! Here's your flag: CTF_FLAG{login_bypass_success}"
-            return "Hint:" #add hint here for the password
-                
-            if username in users and check_password_hash(users[username], password):
+            return "Hint: Santa's favorite CTF event! 🎄"
+        if username in users:
+            if check_password_hash(users[username], password):
                 return f"Welcome {username}!"
-                
+            else:
+                flash('Invalid credentials')
+                return redirect(url_for('login'))
+        else:
             flash('Invalid credentials')
             return redirect(url_for('login'))
-            
-        except Exception as e:
-            flash('Login error')
-            return redirect(url_for('login'))
-            
+
     return render_template('ctf1.html')
 if __name__ == '__main__':
     app.run(debug=False)
