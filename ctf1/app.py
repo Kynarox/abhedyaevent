@@ -43,7 +43,7 @@ def login():
         if "admin" in username.lower():
             if check_password_hash(users.get('admin', ''), password):
                 return "Congrats! Here's your flag: CTF_FLAG{login_bypass_success}"
-            return "Hint: Santa's favorite CTF event! 🎄"
+            return "Hint: "
         if username in users:
             if check_password_hash(users[username], password):
                 return f"Welcome {username}!"
